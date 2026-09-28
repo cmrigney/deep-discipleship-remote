@@ -1,0 +1,599 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 110;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DD540009306B24DA00F1E8A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD540008306B24DA00F1E8A7 /* AppDelegate.swift */; };
+		DD54000D306B24DA00F1E8A7 /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = DD54000B306B24DA00F1E8A7 /* Main.html */; };
+		DD54000F306B24DA00F1E8A7 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DD54000E306B24DA00F1E8A7 /* Icon.png */; };
+		DD540011306B24DA00F1E8A7 /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = DD540010306B24DA00F1E8A7 /* Style.css */; };
+		DD540013306B24DA00F1E8A7 /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = DD540012306B24DA00F1E8A7 /* Script.js */; };
+		DD540015306B24DA00F1E8A7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD540014306B24DA00F1E8A7 /* ViewController.swift */; };
+		DD540018306B24DA00F1E8A7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD540016306B24DA00F1E8A7 /* Main.storyboard */; };
+		DD54001A306B24DB00F1E8A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD540019306B24DB00F1E8A7 /* Assets.xcassets */; };
+		DD540021306B24DB00F1E8A7 /* Deep Discipleship Remote Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = DD540020306B24DB00F1E8A7 /* Deep Discipleship Remote Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		DD540026306B24DB00F1E8A7 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD540025306B24DB00F1E8A7 /* SafariWebExtensionHandler.swift */; };
+		DD540037306B24DB00F1E8A7 /* popup in Resources */ = {isa = PBXBuildFile; fileRef = DD540032306B24DB00F1E8A7 /* popup */; };
+		DD540038306B24DB00F1E8A7 /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = DD540033306B24DB00F1E8A7 /* background.js */; };
+		DD540039306B24DB00F1E8A7 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = DD540034306B24DB00F1E8A7 /* icons */; };
+		DD54003A306B24DB00F1E8A7 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = DD540035306B24DB00F1E8A7 /* manifest.json */; };
+		DD54003B306B24DB00F1E8A7 /* content.js in Resources */ = {isa = PBXBuildFile; fileRef = DD540036306B24DB00F1E8A7 /* content.js */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DD540022306B24DB00F1E8A7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DD54FFFD306B24DA00F1E8A7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD54001F306B24DB00F1E8A7;
+			remoteInfo = "Deep Discipleship Remote Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		DD54002D306B24DB00F1E8A7 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			dstPath = "";
+			dstSubfolder = PlugIns;
+			files = (
+				DD540021306B24DB00F1E8A7 /* Deep Discipleship Remote Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		DD540005306B24DA00F1E8A7 /* Deep Discipleship Remote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Deep Discipleship Remote.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD540008306B24DA00F1E8A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		DD54000C306B24DA00F1E8A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = Base.lproj/Main.html; sourceTree = "<group>"; };
+		DD54000E306B24DA00F1E8A7 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		DD540010306B24DA00F1E8A7 /* Style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
+		DD540012306B24DA00F1E8A7 /* Script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Script.js; sourceTree = "<group>"; };
+		DD540014306B24DA00F1E8A7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		DD540017306B24DA00F1E8A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		DD540019306B24DB00F1E8A7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DD54001B306B24DB00F1E8A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DD540020306B24DB00F1E8A7 /* Deep Discipleship Remote Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Deep Discipleship Remote Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD540025306B24DB00F1E8A7 /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		DD540027306B24DB00F1E8A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DD540032306B24DB00F1E8A7 /* popup */ = {isa = PBXFileReference; lastKnownFileType = folder; name = popup; path = ../../../extension/dist/safari/popup; sourceTree = "<group>"; };
+		DD540033306B24DB00F1E8A7 /* background.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = background.js; path = ../../../extension/dist/safari/background.js; sourceTree = "<group>"; };
+		DD540034306B24DB00F1E8A7 /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = icons; path = ../../../extension/dist/safari/icons; sourceTree = "<group>"; };
+		DD540035306B24DB00F1E8A7 /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../../extension/dist/safari/manifest.json; sourceTree = "<group>"; };
+		DD540036306B24DB00F1E8A7 /* content.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = content.js; path = ../../../extension/dist/safari/content.js; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DD540002306B24DA00F1E8A7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
+		};
+		DD54001D306B24DB00F1E8A7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DD540006306B24DA00F1E8A7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DD540005306B24DA00F1E8A7 /* Deep Discipleship Remote.app */,
+				DD540020306B24DB00F1E8A7 /* Deep Discipleship Remote Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DD540007306B24DA00F1E8A7 /* Deep Discipleship Remote */ = {
+			isa = PBXGroup;
+			children = (
+				DD540008306B24DA00F1E8A7 /* AppDelegate.swift */,
+				DD540014306B24DA00F1E8A7 /* ViewController.swift */,
+				DD540016306B24DA00F1E8A7 /* Main.storyboard */,
+				DD540019306B24DB00F1E8A7 /* Assets.xcassets */,
+				DD54001B306B24DB00F1E8A7 /* Info.plist */,
+				DD54000A306B24DA00F1E8A7 /* Resources */,
+			);
+			path = "Deep Discipleship Remote";
+			sourceTree = "<group>";
+		};
+		DD54000A306B24DA00F1E8A7 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DD54000B306B24DA00F1E8A7 /* Main.html */,
+				DD54000E306B24DA00F1E8A7 /* Icon.png */,
+				DD540010306B24DA00F1E8A7 /* Style.css */,
+				DD540012306B24DA00F1E8A7 /* Script.js */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		DD540024306B24DB00F1E8A7 /* Deep Discipleship Remote Extension */ = {
+			isa = PBXGroup;
+			children = (
+				DD540031306B24DB00F1E8A7 /* Resources */,
+				DD540025306B24DB00F1E8A7 /* SafariWebExtensionHandler.swift */,
+				DD540027306B24DB00F1E8A7 /* Info.plist */,
+			);
+			path = "Deep Discipleship Remote Extension";
+			sourceTree = "<group>";
+		};
+		DD540031306B24DB00F1E8A7 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DD540032306B24DB00F1E8A7 /* popup */,
+				DD540033306B24DB00F1E8A7 /* background.js */,
+				DD540034306B24DB00F1E8A7 /* icons */,
+				DD540035306B24DB00F1E8A7 /* manifest.json */,
+				DD540036306B24DB00F1E8A7 /* content.js */,
+			);
+			name = Resources;
+			path = "Deep Discipleship Remote Extension";
+			sourceTree = SOURCE_ROOT;
+		};
+		DD54FFFC306B24DA00F1E8A7 = {
+			isa = PBXGroup;
+			children = (
+				DD540007306B24DA00F1E8A7 /* Deep Discipleship Remote */,
+				DD540024306B24DB00F1E8A7 /* Deep Discipleship Remote Extension */,
+				DD540006306B24DA00F1E8A7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DD540004306B24DA00F1E8A7 /* Deep Discipleship Remote */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD54002E306B24DB00F1E8A7 /* Build configuration list for PBXNativeTarget "Deep Discipleship Remote" */;
+			buildPhases = (
+				DD540001306B24DA00F1E8A7 /* Sources */,
+				DD540002306B24DA00F1E8A7 /* Frameworks */,
+				DD540003306B24DA00F1E8A7 /* Resources */,
+				DD54002D306B24DB00F1E8A7 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DD540023306B24DB00F1E8A7 /* PBXTargetDependency */,
+			);
+			name = "Deep Discipleship Remote";
+			productName = "Deep Discipleship Remote";
+			productReference = DD540005306B24DA00F1E8A7 /* Deep Discipleship Remote.app */;
+			productType = "com.apple.product-type.application";
+		};
+		DD54001F306B24DB00F1E8A7 /* Deep Discipleship Remote Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD54002A306B24DB00F1E8A7 /* Build configuration list for PBXNativeTarget "Deep Discipleship Remote Extension" */;
+			buildPhases = (
+				DD54001C306B24DB00F1E8A7 /* Sources */,
+				DD54001D306B24DB00F1E8A7 /* Frameworks */,
+				DD54001E306B24DB00F1E8A7 /* Resources */,
+			);
+			buildRules = (
+			);
+			name = "Deep Discipleship Remote Extension";
+			productName = "Deep Discipleship Remote Extension";
+			productReference = DD540020306B24DB00F1E8A7 /* Deep Discipleship Remote Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DD54FFFD306B24DA00F1E8A7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2700;
+				LastUpgradeCheck = 2700;
+				TargetAttributes = {
+					DD540004306B24DA00F1E8A7 = {
+						CreatedOnToolsVersion = 27.0;
+					};
+					DD54001F306B24DB00F1E8A7 = {
+						CreatedOnToolsVersion = 27.0;
+					};
+				};
+			};
+			buildConfigurationList = DD540000306B24DA00F1E8A7 /* Build configuration list for PBXProject "Deep Discipleship Remote" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = DD54FFFC306B24DA00F1E8A7;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = DD540006306B24DA00F1E8A7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DD540004306B24DA00F1E8A7 /* Deep Discipleship Remote */,
+				DD54001F306B24DB00F1E8A7 /* Deep Discipleship Remote Extension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DD540003306B24DA00F1E8A7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+				DD54000F306B24DA00F1E8A7 /* Icon.png in Resources */,
+				DD540018306B24DA00F1E8A7 /* Main.storyboard in Resources */,
+				DD540013306B24DA00F1E8A7 /* Script.js in Resources */,
+				DD54000D306B24DA00F1E8A7 /* Main.html in Resources */,
+				DD54001A306B24DB00F1E8A7 /* Assets.xcassets in Resources */,
+				DD540011306B24DA00F1E8A7 /* Style.css in Resources */,
+			);
+		};
+		DD54001E306B24DB00F1E8A7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+				DD54003A306B24DB00F1E8A7 /* manifest.json in Resources */,
+				DD540039306B24DB00F1E8A7 /* icons in Resources */,
+				DD540038306B24DB00F1E8A7 /* background.js in Resources */,
+				DD540037306B24DB00F1E8A7 /* popup in Resources */,
+				DD54003B306B24DB00F1E8A7 /* content.js in Resources */,
+			);
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DD540001306B24DA00F1E8A7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+				DD540015306B24DA00F1E8A7 /* ViewController.swift in Sources */,
+				DD540009306B24DA00F1E8A7 /* AppDelegate.swift in Sources */,
+			);
+		};
+		DD54001C306B24DB00F1E8A7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+				DD540026306B24DB00F1E8A7 /* SafariWebExtensionHandler.swift in Sources */,
+			);
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DD540023306B24DB00F1E8A7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD54001F306B24DB00F1E8A7 /* Deep Discipleship Remote Extension */;
+			targetProxy = DD540022306B24DB00F1E8A7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		DD54000B306B24DA00F1E8A7 /* Main.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DD54000C306B24DA00F1E8A7 /* Base */,
+			);
+			name = Main.html;
+			sourceTree = "<group>";
+		};
+		DD540016306B24DA00F1E8A7 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DD540017306B24DA00F1E8A7 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DD540028306B24DB00F1E8A7 /* Debug configuration for PBXProject "Deep Discipleship Remote" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.6;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		DD540029306B24DB00F1E8A7 /* Release configuration for PBXProject "Deep Discipleship Remote" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.6;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		DD54002B306B24DB00F1E8A7 /* Debug configuration for PBXNativeTarget "Deep Discipleship Remote Extension" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZM8Z5NFXP5;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Deep Discipleship Remote Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Deep Discipleship Remote Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "local.ddremote.Deep-Discipleship-Remote.Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		DD54002C306B24DB00F1E8A7 /* Release configuration for PBXNativeTarget "Deep Discipleship Remote Extension" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZM8Z5NFXP5;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Deep Discipleship Remote Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Deep Discipleship Remote Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "local.ddremote.Deep-Discipleship-Remote.Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		DD54002F306B24DB00F1E8A7 /* Debug configuration for PBXNativeTarget "Deep Discipleship Remote" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZM8Z5NFXP5;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Deep Discipleship Remote/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Deep Discipleship Remote";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				INFOPLIST_KEY_NSViewGestureRecognizerIsExclusive = NO;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "local.ddremote.Deep-Discipleship-Remote";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		DD540030306B24DB00F1E8A7 /* Release configuration for PBXNativeTarget "Deep Discipleship Remote" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZM8Z5NFXP5;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Deep Discipleship Remote/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Deep Discipleship Remote";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				INFOPLIST_KEY_NSViewGestureRecognizerIsExclusive = NO;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "local.ddremote.Deep-Discipleship-Remote";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DD540000306B24DA00F1E8A7 /* Build configuration list for PBXProject "Deep Discipleship Remote" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD540028306B24DB00F1E8A7 /* Debug configuration for PBXProject "Deep Discipleship Remote" */,
+				DD540029306B24DB00F1E8A7 /* Release configuration for PBXProject "Deep Discipleship Remote" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		DD54002A306B24DB00F1E8A7 /* Build configuration list for PBXNativeTarget "Deep Discipleship Remote Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD54002B306B24DB00F1E8A7 /* Debug configuration for PBXNativeTarget "Deep Discipleship Remote Extension" */,
+				DD54002C306B24DB00F1E8A7 /* Release configuration for PBXNativeTarget "Deep Discipleship Remote Extension" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		DD54002E306B24DB00F1E8A7 /* Build configuration list for PBXNativeTarget "Deep Discipleship Remote" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD54002F306B24DB00F1E8A7 /* Debug configuration for PBXNativeTarget "Deep Discipleship Remote" */,
+				DD540030306B24DB00F1E8A7 /* Release configuration for PBXNativeTarget "Deep Discipleship Remote" */,
+			);
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DD54FFFD306B24DA00F1E8A7 /* Project object */;
+	validationLevel = 1;
+}

@@ -1,0 +1,10 @@
+{
+  "//": "MV2 with a persistent background page (PLAN.md §7.1).",
+  "manifest_version": 2,
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "dd-remote@deep-discipleship.local",
+      "strict_min_version": "109.0"
+    }
+  }
+}

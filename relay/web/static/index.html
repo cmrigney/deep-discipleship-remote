@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f1115">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="DD Remote">
+  <title>DD Remote</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon-180.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Login -->
+  <main id="login" class="screen" hidden>
+    <div class="login-card">
+      <img src="icon.svg" alt="" class="login-icon" width="72" height="72">
+      <h1>Deep Discipleship Remote</h1>
+      <p class="muted">Enter the group password to control the video.</p>
+      <form id="login-form" autocomplete="on">
+        <label class="field">
+          <span>Password</span>
+          <input id="password" type="password" name="password" autocomplete="current-password" required>
+        </label>
+        <label class="check">
+          <input id="remember" type="checkbox" checked>
+          <span>Remember on this phone</span>
+        </label>
+        <p id="login-error" class="error" role="alert" hidden></p>
+        <button id="login-btn" type="submit" class="btn btn-primary btn-block">Connect</button>
+      </form>
+    </div>
+  </main>
+
+  <!-- Control -->
+  <main id="control" class="screen" hidden>
+    <header class="status">
+      <div id="status-pill" class="pill pill-red"><span class="dot"></span><span id="status-text">Connecting…</span></div>
+      <div id="status-sub" class="muted status-sub">&nbsp;</div>
+    </header>
+
+    <p id="hint" class="hint" hidden></p>
+
+    <button id="play-btn" class="play-btn is-paused" type="button" disabled>
+      <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.2-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>
+      <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4.5" height="14" rx="1.2"/><rect x="13.5" y="5" width="4.5" height="14" rx="1.2"/></svg>
+      <span id="play-label">Play</span>
+    </button>
+
+    <div class="row">
+      <button id="rewind-btn" class="btn btn-ghost" type="button" disabled>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5V2L7 6l5 4V7a6 6 0 1 1-6 6H4a8 8 0 1 0 8-8z"/></svg>
+        Back 10s
+      </button>
+    </div>
+
+    <section class="card timer-card" aria-labelledby="timer-heading">
+      <h2 id="timer-heading">Discussion Timer</h2>
+
+      <div id="timer-setup">
+        <div class="presets" role="group" aria-label="Timer presets">
+          <button type="button" class="chip" data-min="5">5</button>
+          <button type="button" class="chip" data-min="10">10</button>
+          <button type="button" class="chip" data-min="15">15</button>
+          <button type="button" class="chip" data-min="20">20</button>
+        </div>
+        <div class="stepper">
+          <button id="setup-minus" type="button" class="btn btn-round" aria-label="One minute less">−</button>
+          <div id="setup-value" class="stepper-value">10:00</div>
+          <button id="setup-plus" type="button" class="btn btn-round" aria-label="One minute more">+</button>
+        </div>
+        <button id="timer-start" type="button" class="btn btn-primary btn-block" disabled>Start Timer</button>
+        <label class="check">
+          <input id="pause-on-timer" type="checkbox" checked>
+          <span>Pause video when timer starts</span>
+        </label>
+      </div>
+
+      <div id="timer-running" hidden>
+        <div id="timer-remaining" class="timer-remaining">10:00</div>
+        <div class="timer-label muted" id="timer-label">remaining</div>
+        <div class="progress"><i id="timer-progress"></i></div>
+        <div class="timer-actions">
+          <button id="timer-minus" type="button" class="btn">−1 min</button>
+          <button id="timer-pause" type="button" class="btn">Pause</button>
+          <button id="timer-plus" type="button" class="btn">+1 min</button>
+        </div>
+        <button id="timer-stop" type="button" class="btn btn-danger btn-block">Stop Timer</button>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <button id="wake-btn" type="button" class="link" hidden>Keep screen on: off</button>
+      <button id="forget-btn" type="button" class="link">Forget password</button>
+    </footer>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

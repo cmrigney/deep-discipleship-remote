@@ -1,0 +1,4 @@
+{
+  "//": "Chrome 116+ keeps a service worker alive while its WebSocket is active.",
+  "minimum_chrome_version": "116"
+}

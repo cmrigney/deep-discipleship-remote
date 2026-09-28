@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Deep Discipleship Remote</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="head">
+    <img src="../icons/icon-48.png" alt="" width="28" height="28">
+    <h1>Deep Discipleship Remote</h1>
+  </header>
+
+  <label class="toggle-row">
+    <span class="toggle-text">
+      <strong>Remote control</strong>
+      <span id="toggle-sub" class="muted">Off</span>
+    </span>
+    <input id="enabled" type="checkbox" class="switch" role="switch">
+  </label>
+
+  <section class="status" aria-live="polite">
+    <div class="status-line"><span id="status-dot" class="dot"></span><span id="status-text">Off</span></div>
+    <dl class="facts">
+      <div><dt>Video on screen</dt><dd id="fact-video">—</dd></div>
+      <div><dt>Phones connected</dt><dd id="fact-phones">—</dd></div>
+    </dl>
+    <button id="retry" type="button" class="btn btn-small" hidden>Try again</button>
+  </section>
+
+  <details id="settings" class="settings">
+    <summary>Connection settings</summary>
+    <form id="settings-form" autocomplete="off">
+      <label class="field">
+        <span>Relay address</span>
+        <input id="relay-url" type="text" placeholder="remote.example.com" spellcheck="false" autocapitalize="off">
+      </label>
+      <label class="field">
+        <span>Password</span>
+        <span class="pw-row">
+          <input id="password" type="password" autocomplete="off">
+          <button id="show-pw" type="button" class="btn btn-small">Show</button>
+        </span>
+      </label>
+      <label class="check">
+        <input id="chime" type="checkbox">
+        <span>Play a soft chime when the timer ends</span>
+      </label>
+      <p id="form-msg" class="form-msg" role="alert" hidden></p>
+      <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+  </details>
+
+  <script src="popup.js"></script>
+</body>
+</html>

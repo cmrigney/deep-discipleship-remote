@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "Deep Discipleship Remote",
+  "short_name": "DD Remote",
+  "version": "1.0.0",
+  "description": "Control the Deep Discipleship course video and discussion timer from your phone.",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "96": "icons/icon-96.png",
+    "128": "icons/icon-128.png"
+  },
+  "permissions": ["storage"],
+  "host_permissions": ["https://player.lifeway.com/*"],
+  "action": {
+    "default_title": "Deep Discipleship Remote",
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://player.lifeway.com/player/*"],
+      "js": ["content.js"],
+      "all_frames": false,
+      "run_at": "document_idle"
+    }
+  ]
+}

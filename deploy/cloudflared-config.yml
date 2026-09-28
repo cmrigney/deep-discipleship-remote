@@ -1,0 +1,11 @@
+# /etc/cloudflared/config.yml on the Raspberry Pi.
+# Replace <tunnel-id> and the hostname. See README.md "Cloudflare Tunnel".
+tunnel: <tunnel-id>
+# `cloudflared tunnel create` writes this file to ~/.cloudflared/; copy it here
+# (README §2), because the systemd service doesn't look in your home directory.
+credentials-file: /etc/cloudflared/<tunnel-id>.json
+
+ingress:
+  - hostname: dd-remote.example.com
+    service: http://127.0.0.1:8080
+  - service: http_status:404

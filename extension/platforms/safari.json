@@ -1,0 +1,4 @@
+{
+  "//": "MV2 so the background page can be persistent (PLAN.md §7.1). macOS only.",
+  "manifest_version": 2
+}

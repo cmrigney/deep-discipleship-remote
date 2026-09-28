@@ -5,6 +5,19 @@ play/pause, plus a full-screen discussion timer overlay (default 10 minutes) tha
 
 ---
 
+## Implementation Status (2026-09-24)
+
+| Phase | Status |
+|-------|--------|
+| 1–2 Relay core + hardening | ✅ Done. Unit and integration tests cover auth, lockout, timeout, routing, origin check, connection caps and HTTP/message rate limits (`relay/`, `go test ./...`). |
+| 3 Phone UI | ✅ Done (`relay/web/static`) |
+| 4 Extension | ✅ Done. `e2e/run.mjs` passes: relay + Chrome build in Chromium + mock player + phone page. The Safari content-script bundle was also checked on the **real Lifeway player** (play, pause, seek, timer, fullscreen overlay). |
+| 0 Safari background spike, 5 Safari packaging | ⏳ Needs the Mac. Run `safari/make-xcode-project.sh`, then leave it connected for 90+ min. |
+| 6 Deploy, 7 Dress rehearsal | ⏳ `deploy/` has the systemd unit, env example, cloudflared config and Makefile (README §1–2) |
+| 8 Chrome/Firefox | Chrome build is covered by the E2E test. Firefox builds but hasn't been run. |
+
+---
+
 ## 0. Findings from the Real Player Page (verified 2026-09-24 via Playwright)
 
 | Question | Answer |
@@ -101,7 +114,7 @@ deep-discipleship-extension/
 │   │   ├── chrome.json
 │   │   └── firefox.json
 │   ├── scripts/build.mjs           # merges base + overrides → dist/<browser>/
-│   └── test/mock-player.html       # local video.js page for development
+│   └── test/mock-player.html       # offline stand-in with Lifeway's markup, for development
 ├── safari/                         # Xcode wrapper project (generated once, committed)
 └── deploy/
     ├── relay.service               # systemd unit
@@ -386,7 +399,6 @@ Sources: [Apple – Assessing your Safari web extension's browser compatibility]
   "version": "1.0.0",
   "permissions": ["storage"],
   "host_permissions": ["https://player.lifeway.com/*"],
-  "optional_host_permissions": ["https://*/*"],
   "action": { "default_popup": "popup/popup.html", "default_icon": { … } },
   "content_scripts": [{
     "matches": ["https://player.lifeway.com/player/*"],
@@ -398,8 +410,8 @@ Sources: [Apple – Assessing your Safari web extension's browser compatibility]
 ```
 The player is a top-level page (§0), so there's no need for `all_frames` or broad `*.lifeway.com`
 matches. Overlay styles live inside its Shadow DOM, so no content-script CSS file is needed.
-The relay host permission is requested at runtime (`permissions.request`) when the user saves the
-relay URL in the popup. The URL therefore isn't hard-coded.
+No host permission is needed for the relay. WebSockets opened from the background aren't subject
+to CORS or host permissions, so the relay URL is just a setting and isn't in the manifest.
 
 ### 7.4 Components
 
@@ -533,7 +545,7 @@ ingress:
 | 1 | Relay core | `serve`, `hash-password`, auth, hub, protocol | Integration tests pass. Two `websocat` clients can relay messages. |
 | 2 | Relay hardening | Rate limits, lockout, origin check, headers | Tests for every limit. Manual brute-force attempt gets locked out. |
 | 3 | Phone UI | `web/` embedded | Works on the iPhone Safari and Android Chrome you'll use. Tested against a fake player script. |
-| 4 | Extension | background, content, overlay, popup | Works against `test/mock-player.html` (video.js from CDN + a sample MP4) in Chrome for fast iteration |
+| 4 | Extension | background, content, overlay, popup | Works against `test/mock-player.html` (Lifeway markup, generated silent WAV, no network) in Chrome |
 | 5 | Safari packaging | Xcode project | Installed on the church Mac and survives a Safari restart and a reboot |
 | 6 | Deploy | Pi + tunnel | Phone on cellular controls the church Mac through the public hostname |
 | 7 | Dress rehearsal | — | Full lesson run-through: several pause → timer → resume cycles, with the phone locking and unlocking and Wi-Fi dropping |

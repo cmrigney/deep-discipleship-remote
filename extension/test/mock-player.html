@@ -1,0 +1,89 @@
+<!doctype html>
+<!--
+  Stand-in for https://player.lifeway.com/player/<id> with the same markup the
+  extension relies on (PLAN.md §0). No network needed: the <video> element plays
+  a generated silent WAV (a real, seekable media file with a duration) and the
+  picture is a canvas behind it. Serve it from localhost and build the
+  extension with --dev:
+
+    node scripts/build.mjs chrome --dev
+    python3 -m http.server 8000 -d test   # then open http://localhost:8000/mock-player.html
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Mock Lifeway Video Player</title>
+  <style>
+    html, body { margin: 0; height: 100%; background: #000; }
+    .video-js { position: relative; width: 100%; height: 100%; background: #000; }
+    .vjs-tech, #picture { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .vjs-control-bar {
+      position: absolute; left: 0; right: 0; bottom: 0; height: 40px;
+      display: flex; align-items: center; gap: 8px; padding: 0 8px;
+      background: rgba(0,0,0,.6); color: #fff; font: 13px sans-serif;
+    }
+    .vjs-control-bar button { background: none; color: #fff; border: 0; font: inherit; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div id="vjs_video_3" class="video-js vjs-default-skin vjs-paused">
+    <canvas id="picture" width="640" height="360"></canvas>
+    <video class="vjs-tech" id="vjs_video_3_html5_api" playsinline preload="auto"></video>
+    <div class="vjs-control-bar">
+      <button class="vjs-play-control vjs-control vjs-button vjs-paused" type="button" title="Play">Play</button>
+      <span id="time">0:00</span>
+      <button class="vjs-fullscreen-control vjs-control vjs-button" type="button" style="margin-left:auto">Fullscreen</button>
+    </div>
+  </div>
+  <script>
+    const container = document.getElementById('vjs_video_3');
+    const video = document.getElementById('vjs_video_3_html5_api');
+    const btn = document.querySelector('.vjs-play-control');
+    const g = document.getElementById('picture').getContext('2d');
+    (function draw() {
+      g.fillStyle = `hsl(${(video.currentTime * 20) % 360}, 45%, 35%)`;
+      g.fillRect(0, 0, 640, 360);
+      g.fillStyle = '#fff';
+      g.font = 'bold 42px sans-serif';
+      g.fillText('Mock lesson video', 150, 170);
+      g.font = '28px monospace';
+      g.fillText(video.currentTime.toFixed(1) + 's', 270, 220);
+      requestAnimationFrame(draw);
+    })();
+
+    // 5 minutes of silence as an 8 kHz, 8-bit mono WAV.
+    function silentWav(seconds, rate = 8000) {
+      const n = seconds * rate;
+      const buf = new ArrayBuffer(44 + n);
+      const v = new DataView(buf);
+      const str = (o, s) => [...s].forEach((c, i) => v.setUint8(o + i, c.charCodeAt(0)));
+      str(0, 'RIFF'); v.setUint32(4, 36 + n, true); str(8, 'WAVE');
+      str(12, 'fmt '); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+      v.setUint32(24, rate, true); v.setUint32(28, rate, true); v.setUint16(32, 1, true); v.setUint16(34, 8, true);
+      str(36, 'data'); v.setUint32(40, n, true);
+      new Uint8Array(buf, 44).fill(128);
+      return URL.createObjectURL(new Blob([buf], { type: 'audio/wav' }));
+    }
+    video.src = silentWav(300);
+
+    // Mimic video.js: the button toggles playback and mirrors state in classes.
+    btn.addEventListener('click', () => (video.paused ? video.play() : video.pause()));
+    const sync = () => {
+      const paused = video.paused;
+      btn.classList.toggle('vjs-paused', paused);
+      btn.classList.toggle('vjs-playing', !paused);
+      btn.title = btn.textContent = paused ? 'Play' : 'Pause';
+      container.classList.toggle('vjs-paused', paused);
+      container.classList.toggle('vjs-playing', !paused);
+    };
+    video.addEventListener('play', sync);
+    video.addEventListener('pause', sync);
+    video.addEventListener('timeupdate', () => {
+      document.getElementById('time').textContent = video.currentTime.toFixed(0) + 's';
+    });
+    document.querySelector('.vjs-fullscreen-control').addEventListener('click', () => {
+      document.fullscreenElement ? document.exitFullscreen() : container.requestFullscreen();
+    });
+  </script>
+</body>
+</html>

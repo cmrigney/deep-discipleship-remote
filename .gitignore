@@ -2,3 +2,9 @@
 .DS_Store
 extension/dist/
 relay/relay
+relay/relay-linux-*
+e2e/node_modules/
+e2e/out/
+safari/*/build/
+safari/*/*.xcodeproj/xcuserdata/
+safari/*/*.xcodeproj/project.xcworkspace/xcuserdata/
