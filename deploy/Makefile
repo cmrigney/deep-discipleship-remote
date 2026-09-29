@@ -1,27 +1,32 @@
-# Build and deploy the relay to the Raspberry Pi.
-#   make build              cross-compile for 64-bit Pi OS (arm64)
-#   make build GOARCH=arm   32-bit Pi OS
-#   make deploy PI=pi@raspberrypi.local
-PI     ?= pi@raspberrypi.local
-GOARCH ?= arm64
-GOARM  ?= 7
-BIN    := ../relay/relay-linux-$(GOARCH)
+# Build the relay image and deploy the Compose stack to the Raspberry Pi.
+#   make setup  PI=pi@raspberrypi.local   create /opt/dd-remote on the Pi (once)
+#   make load   PI=pi@raspberrypi.local   build the image and copy it to the Pi
+#   make deploy PI=pi@raspberrypi.local   load, then (re)start the stack
+#   make deploy PLATFORM=linux/arm/v7     32-bit Pi OS
+#   make logs   PI=pi@raspberrypi.local   follow the relay and tunnel logs
+PI       ?= pi@raspberrypi.local
+PLATFORM ?= linux/arm64
+DIR      ?= /opt/dd-remote
+IMAGE    := ddremote-relay:latest
 
-.PHONY: build deploy install-service test
+.PHONY: test image load setup deploy logs
 
 test:
 	cd ../relay && go vet ./... && go test ./...
 
-build:
-	cd ../relay && GOOS=linux GOARCH=$(GOARCH) GOARM=$(GOARM) CGO_ENABLED=0 \
-		go build -trimpath -ldflags="-s -w" -o relay-linux-$(GOARCH) ./cmd/relay
+image:
+	docker buildx build --platform $(PLATFORM) -t $(IMAGE) --load ../relay
 
-deploy: build
-	scp $(BIN) $(PI):/tmp/relay
-	ssh $(PI) 'sudo install -m 755 /tmp/relay /usr/local/bin/relay && sudo systemctl restart relay && systemctl --no-pager status relay | head -5'
+setup:
+	ssh $(PI) 'sudo mkdir -p $(DIR)/cloudflared && sudo chown -R $$(id -un): $(DIR)'
+	scp compose.yaml $(PI):$(DIR)/compose.yaml
 
-install-service:
-	scp relay.service $(PI):/tmp/relay.service
-	ssh $(PI) 'id relay >/dev/null 2>&1 || sudo useradd --system --no-create-home --shell /usr/sbin/nologin relay; \
-		sudo install -m 644 /tmp/relay.service /etc/systemd/system/relay.service && \
-		sudo mkdir -p /etc/relay && sudo systemctl daemon-reload && sudo systemctl enable relay'
+load: image
+	docker save $(IMAGE) | gzip | ssh $(PI) 'gunzip | docker load'
+
+deploy: load
+	scp compose.yaml $(PI):$(DIR)/compose.yaml
+	ssh $(PI) 'cd $(DIR) && docker compose up -d --remove-orphans && docker image prune -f >/dev/null && docker compose ps'
+
+logs:
+	ssh -t $(PI) 'cd $(DIR) && docker compose logs -f --tail=100'

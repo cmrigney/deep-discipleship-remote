@@ -14,10 +14,10 @@ See [PLAN.md](PLAN.md) for the design, research notes and security model.
 
 | Folder | What |
 |---|---|
-| `relay/` | Go relay server. Also serves the phone page (`relay/web/static`). |
+| `relay/` | Go relay server and its Dockerfile. Also serves the phone page (`relay/web/static`). |
 | `extension/` | Browser extension source (`src/`), per-browser manifest overrides, build script, mock player |
 | `safari/` | Script that wraps the extension in a macOS app with Xcode |
-| `deploy/` | systemd unit, env example, cloudflared config, Makefile for the Pi |
+| `deploy/` | Docker Compose stack, env example, cloudflared config, Makefile for the Pi |
 | `e2e/` | End-to-end test (relay + extension in Chromium + mock player + phone page) |
 | `tools/` | Icon generator |
 
@@ -25,52 +25,86 @@ See [PLAN.md](PLAN.md) for the design, research notes and security model.
 
 ## 1. Deploy the relay on the Raspberry Pi
 
-You need Go 1.26+ on your dev machine and SSH access to the Pi.
+The relay and the Cloudflare Tunnel run as a Docker Compose stack in `/opt/dd-remote` on the
+Pi. Both containers restart if they crash and come back on their own after a reboot.
+
+You need Docker (with buildx) on your dev machine, and SSH access to a Pi running 64-bit
+Raspberry Pi OS with Docker installed:
+
+```bash
+# on the Pi, once
+curl -fsSL https://get.docker.com | sh
+sudo usermod -aG docker $USER      # log out and back in afterwards
+sudo systemctl enable docker       # start Docker (and so the stack) at boot
+```
+
+Then from your dev machine:
 
 ```bash
 cd deploy
-make test                                  # optional: run the relay tests
-make install-service PI=pi@raspberrypi.local   # creates the relay user + systemd unit
-make deploy PI=pi@raspberrypi.local            # cross-compiles (arm64) and installs
+make test                                 # optional: run the relay tests (needs Go 1.26+)
+make setup  PI=pi@raspberrypi.local       # creates /opt/dd-remote on the Pi
+make load   PI=pi@raspberrypi.local       # builds the arm64 relay image and copies it to the Pi
 ```
 
-Use `make deploy GOARCH=arm` if the Pi runs 32-bit Raspberry Pi OS.
+Use `PLATFORM=linux/arm/v7` with `make load` and `make deploy` if the Pi runs 32-bit Raspberry
+Pi OS.
 
 Then set the password **on the Pi**:
 
 ```bash
-relay hash-password               # type the password twice; prints a bcrypt hash
-sudo nano /etc/relay/relay.env    # paste in the contents of deploy/relay.env.example, with the hash
-sudo chmod 600 /etc/relay/relay.env
-sudo systemctl restart relay
-curl http://127.0.0.1:8080/healthz   # → ok
+cd /opt/dd-remote
+docker run --rm -it ddremote-relay hash-password   # type the password twice; prints a bcrypt hash
+nano relay.env        # paste in the contents of deploy/relay.env.example, with the hash
+chmod 600 relay.env
 ```
 
+Keep the single quotes around the hash. Without them, Compose reads each `$` as a variable.
+
 Pick a password of at least 8 characters that the group can type on a phone. To change it
-later, run `relay hash-password` again, update `relay.env` and restart. Everyone connected is
-signed out and has to enter the new password.
+later, run `hash-password` again, update `relay.env` and run `docker compose up -d` in
+`/opt/dd-remote`. Everyone connected is signed out and has to enter the new password.
+
+Finish the tunnel setup (§2) before starting the stack. After that, every code change is deployed
+with one command:
+
+```bash
+make deploy PI=pi@raspberrypi.local   # build, copy the image, restart the stack
+make logs PI=pi@raspberrypi.local     # follow the relay and tunnel logs
+```
 
 ## 2. Cloudflare Tunnel
 
-On the Pi, with [`cloudflared`](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/) installed:
+`cloudflared` runs in the Compose stack, but you create the tunnel once with the `cloudflared`
+CLI ([install it](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/)
+on the Pi or on your dev machine):
 
 ```bash
 cloudflared tunnel login
 cloudflared tunnel create dd-remote          # prints the tunnel id; writes ~/.cloudflared/<tunnel-id>.json
 cloudflared tunnel route dns dd-remote dd-remote.<your-domain>
-
-# The service reads its config and credentials from /etc/cloudflared, so copy both there.
-sudo mkdir -p /etc/cloudflared
-sudo cp ~/.cloudflared/<tunnel-id>.json /etc/cloudflared/
-sudo chmod 600 /etc/cloudflared/<tunnel-id>.json
-sudo cp deploy/cloudflared-config.yml /etc/cloudflared/config.yml   # then edit tunnel id + hostname
-sudo cloudflared tunnel --config /etc/cloudflared/config.yml ingress validate
-sudo cloudflared service install
-systemctl status cloudflared --no-pager | head -5   # should be active (running)
 ```
 
-Leave the relay on `127.0.0.1`. Only `cloudflared` should reach it, which is also why it's safe
-for the relay to trust the `CF-Connecting-IP` header. In the Cloudflare dashboard, turn on
+Put the credentials and config in `/opt/dd-remote/cloudflared` on the Pi. The `cloudflared`
+container runs as user 65532, so that user must own the credentials file:
+
+```bash
+cd /opt/dd-remote
+cp ~/.cloudflared/<tunnel-id>.json cloudflared/     # or scp it over from your dev machine
+sudo chown 65532:65532 cloudflared/<tunnel-id>.json
+chmod 600 cloudflared/<tunnel-id>.json
+nano cloudflared/config.yml   # paste in deploy/cloudflared-config.yml, then edit tunnel id + hostname
+docker compose up -d
+docker compose ps             # both containers should be "Up"
+curl http://127.0.0.1:8080/healthz   # → ok
+```
+
+If you set up `cloudflared` as a systemd service earlier, turn it off so the tunnel doesn't run
+twice: `sudo systemctl disable --now cloudflared`.
+
+The relay's port is published only on the Pi's `127.0.0.1`, and public traffic reaches it only
+through the `cloudflared` container. That's why it's safe for the relay to trust the
+`CF-Connecting-IP` header. In the Cloudflare dashboard, turn on
 **Always Use HTTPS**. You can also add a WAF rate-limiting rule on `/ws` (PLAN.md §5.5).
 Don't put Cloudflare Access in front of `/ws`, because the extension can't log in through it.
 

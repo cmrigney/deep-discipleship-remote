@@ -1,0 +1,38 @@
+# Docker Compose stack for the Raspberry Pi: the relay plus the Cloudflare Tunnel.
+# Lives in /opt/dd-remote on the Pi next to relay.env and cloudflared/. See README.md §1–2.
+# Both containers restart on crash and come back after a reboot (Docker must be enabled at boot).
+name: dd-remote
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: 10m   # keep the SD card from filling up
+    max-file: "3"
+
+services:
+  relay:
+    image: ddremote-relay:latest
+    restart: unless-stopped
+    env_file: relay.env
+    environment:
+      RELAY_LISTEN: ":8080"
+    # Only the Pi itself can reach this port (for `curl .../healthz`). Public traffic comes
+    # through cloudflared, which is why the relay can trust CF-Connecting-IP.
+    ports:
+      - "127.0.0.1:8080:8080"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    logging: *logging
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --no-autoupdate --config /etc/cloudflared/config.yml run
+    volumes:
+      - ./cloudflared:/etc/cloudflared:ro
+    depends_on: [relay]
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    logging: *logging

@@ -13,7 +13,7 @@ play/pause, plus a full-screen discussion timer overlay (default 10 minutes) tha
 | 3 Phone UI | ✅ Done (`relay/web/static`) |
 | 4 Extension | ✅ Done. `e2e/run.mjs` passes: relay + Chrome build in Chromium + mock player + phone page. The Safari content-script bundle was also checked on the **real Lifeway player** (play, pause, seek, timer, fullscreen overlay). |
 | 0 Safari background spike, 5 Safari packaging | ⏳ Needs the Mac. Run `safari/make-xcode-project.sh`, then leave it connected for 90+ min. |
-| 6 Deploy, 7 Dress rehearsal | ⏳ `deploy/` has the systemd unit, env example, cloudflared config and Makefile (README §1–2) |
+| 6 Deploy, 7 Dress rehearsal | ⏳ `deploy/` has the Compose stack, env example, cloudflared config and Makefile (README §1–2) |
 | 8 Chrome/Firefox | Chrome build is covered by the E2E test. Firefox builds but hasn't been run. |
 
 ---
@@ -117,7 +117,7 @@ deep-discipleship-extension/
 │   └── test/mock-player.html       # offline stand-in with Lifeway's markup, for development
 ├── safari/                         # Xcode wrapper project (generated once, committed)
 └── deploy/
-    ├── relay.service               # systemd unit
+    ├── compose.yaml                # relay + cloudflared, restart: unless-stopped
     ├── cloudflared-config.yml
     └── Makefile                    # cross-compile for the Pi, scp, restart
 ```
@@ -203,7 +203,7 @@ reconnect with exponential backoff (1 s → 30 s max, with jitter).
 |--------|-------------|---------|
 | GET    | `/`         | Phone control page (and static assets) |
 | GET    | `/ws`       | WebSocket upgrade (both roles) |
-| GET    | `/healthz`  | Liveness check for systemd/monitoring (no auth, returns `ok`) |
+| GET    | `/healthz`  | Liveness check for monitoring (no auth, returns `ok`) |
 
 ### 5.3 Configuration (env vars / flags)
 | Var | Default | Notes |
@@ -214,7 +214,7 @@ reconnect with exponential backoff (1 s → 30 s max, with jitter).
 | `RELAY_ALLOWED_ORIGINS` | the public hostname + extension schemes | See 5.6 |
 
 `relay hash-password` reads the password from stdin with no echo and prints the bcrypt hash to put
-in `/etc/relay/relay.env`.
+in `/opt/dd-remote/relay.env`.
 
 ### 5.4 Authentication
 - A single shared password. Clients send it in the first WS message (§4.1).
@@ -506,28 +506,30 @@ to CORS or host permissions, so the relay URL is just a setting and isn't in the
 
 ### 9.1 Build & install
 ```bash
-# on dev machine
-cd relay && GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o relay ./cmd/relay
-scp relay pi:/usr/local/bin/relay
+# on dev machine: cross-compiles in Docker, copies the image over SSH, restarts the stack
+cd deploy && make deploy PI=pi@raspberrypi.local
 ```
-(Use `GOARCH=arm GOARM=7` if the Pi runs a 32-bit OS.)
+(Use `PLATFORM=linux/arm/v7` if the Pi runs a 32-bit OS.)
 
-### 9.2 systemd (`deploy/relay.service`)
-- Runs as a dedicated `relay` user with no login shell.
-- `EnvironmentFile=/etc/relay/relay.env` (mode 600, contains `RELAY_PASSWORD_HASH`).
-- `Restart=always` and hardening options: `NoNewPrivileges`, `ProtectSystem=strict`,
-  `ProtectHome`, `PrivateTmp`.
+### 9.2 Docker Compose (`deploy/compose.yaml`, `relay/Dockerfile`)
+- Two services, `relay` and `cloudflared`, both `restart: unless-stopped`. With Docker enabled
+  at boot, they come back after a crash or a reboot.
+- The relay image is distroless, runs as a non-root user, and has a read-only filesystem and no
+  capabilities.
+- `env_file: relay.env` (mode 600, contains `RELAY_PASSWORD_HASH`).
+- The relay port is published on the Pi's `127.0.0.1` only. Log files are capped at 3 × 10 MB.
 
 ### 9.3 Cloudflare Tunnel (`deploy/cloudflared-config.yml`)
 ```yaml
 tunnel: <tunnel-id>
-credentials-file: /etc/cloudflared/<tunnel-id>.json
+credentials-file: /etc/cloudflared/<tunnel-id>.json   # path inside the container
 ingress:
   - hostname: remote.example.com
-    service: http://127.0.0.1:8080
+    service: http://relay:8080
   - service: http_status:404
 ```
-- `cloudflared service install` sets it up as a systemd service.
+- Runs as the `cloudflared` service in the Compose stack, with `/opt/dd-remote/cloudflared`
+  mounted read-only at `/etc/cloudflared`.
 - WebSockets work through tunnels by default. Keepalive pings (§4.5) prevent idle disconnects.
 - In the Cloudflare dashboard, set SSL/TLS to Full, turn on **Always Use HTTPS**, and optionally
   add the WAF rate-limit rule from §5.5.
